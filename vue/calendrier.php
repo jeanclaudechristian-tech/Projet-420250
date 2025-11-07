@@ -39,6 +39,11 @@
             <input type="text" id="descInput" placeholder="Description du rendez-vous">
             <button id="ajouterBtn">Ajouter</button>
           </div>
+           <button id="saveBtn" style="margin-top:10px;">Sauvegarder</button>
+
+           <!-- Zone d’état de sauvegarde -->
+            <div id="save-status" style="margin-top:5px; font-weight:bold;"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -92,7 +97,10 @@
     </div>
   </div>
 
+  <!-- Charge d'abord la logique de sauvegarde -->
+  <script src="../assets/sauvegarde.js"></script>
 
+  <!-- Puis ton script principal -->
   <script>
     // -------- Date automatique
     const jours = ["Dimanche","Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi"];
@@ -101,9 +109,18 @@
     const dateTitle = document.querySelector(".date");
     dateTitle.innerHTML = `${jours[now.getDay()].toUpperCase()}<span>${now.getDate()} ${mois[now.getMonth()]}</span>`;
 
-    // -------- Ajout / Suppression / Modification locale
     const rdvList = document.getElementById("rdvList");
     const ajouterBtn = document.getElementById("ajouterBtn");
+
+    //  Recharger les RDV sauvegardés
+    const saved = loadCalendar();
+    if (saved && saved.events.length > 0) {
+      saved.events.forEach(ev => {
+        const li = document.createElement("li");
+        li.textContent = ev;
+        rdvList.appendChild(li);
+      });
+    }
 
     ajouterBtn.addEventListener("click", () => {
       const heure = document.getElementById("heureInput").value.trim();
@@ -117,12 +134,18 @@
         rdvList.appendChild(li);
         document.getElementById("heureInput").value = "";
         document.getElementById("descInput").value = "";
+
+        //  Sauvegarde automatique après ajout
+        saveCalendar({ events: getAllEvents() });
       }
     });
 
     rdvList.addEventListener("click", (e) => {
       const li = e.target.closest("li");
-      if (e.target.classList.contains("delete")) li.remove();
+      if (e.target.classList.contains("delete")) {
+        li.remove();
+        saveCalendar({ events: getAllEvents() });
+      }
 
       if (e.target.classList.contains("edit")) {
         const heure = prompt("Nouvelle heure :", li.querySelector(".heure").textContent);
@@ -131,6 +154,7 @@
           li.innerHTML = `<span class='heure'>${heure}</span> — ${desc} 
                           <button class='edit'>✎</button> 
                           <button class='delete'>✕</button>`;
+          saveCalendar({ events: getAllEvents() });
         }
       }
     });
@@ -143,12 +167,23 @@
         days.forEach(d => d.classList.remove("selected"));
         day.classList.add("selected");
 
-        // Mise à jour du titre à gauche
-        const jourIndex = new Date().getDay(); // jour actuel (ex : vendredi)
+        const jourIndex = new Date().getDay();
         const jourNom = jours[jourIndex];
         const moisNom = mois[new Date().getMonth()];
         dateTitle.innerHTML = `${jourNom.toUpperCase()}<span>${day.textContent} ${moisNom}</span>`;
       });
+    });
+
+    function getAllEvents() {
+      const items = [...document.querySelectorAll("#rdvList li")];
+      return items.map(li => li.textContent.trim());
+    }
+
+    // ---- Bouton manuel de sauvegarde ----
+    const saveBtn = document.getElementById("saveBtn");
+    saveBtn.addEventListener("click", () => {
+      const events = getAllEvents();
+      saveCalendar({ events });
     });
   </script>
 

@@ -1,0 +1,208 @@
+<!-- /calendrier.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calendrier · Disponibilités</title>
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <main class="conteneur">
+    <section class="carte">
+      <h1 class="titre">Gestion des disponibilités</h1>
+
+      <form id="formDispo" class="grille" novalidate>
+        <label class="champ">
+          <span class="libelle">Date</span>
+          <input type="date" id="date" required />
+        </label>
+
+        <label class="champ">
+          <span class="libelle">Heure de début</span>
+          <input type="time" id="heureDebut" required />
+        </label>
+
+        <label class="champ">
+          <span class="libelle">Heure de fin</span>
+          <input type="time" id="heureFin" required />
+        </label>
+
+        <label class="champ">
+          <span class="libelle">État</span>
+          <select id="etat" required>
+            <option value="disponible">Disponible</option>
+            <option value="occupe">Occupé</option>
+          </select>
+        </label>
+
+        <div class="actions">
+          <button type="button" id="btnAjouter" class="bouton primaire">Ajouter</button>
+          <button type="button" id="btnModifier" class="bouton neutre">Modifier</button>
+          <button type="button" id="btnSupprimer" class="bouton fantome">Supprimer</button>
+        </div>
+
+        <p id="message" class="message" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="carte">
+      <div class="entete-liste">
+        <h2 class="soustitre">Mes créneaux</h2>
+      </div>
+      <div id="listeDispos" class="liste"></div>
+    </section>
+  </main>
+
+  <template id="modeleLigne">
+    <button type="button" class="ligne">
+      <span class="col date"></span>
+      <span class="col heures"></span>
+      <span class="col etat badge"></span>
+      <span class="chevron" aria-hidden="true">›</span>
+    </button>
+  </template>
+
+  <script>
+    // Pourquoi : empêcher conflits d’horaires sans complexifier.
+    const el = {
+      liste: document.getElementById("listeDispos"),
+      tpl: document.getElementById("modeleLigne"),
+      msg: document.getElementById("message"),
+      date: document.getElementById("date"),
+      debut: document.getElementById("heureDebut"),
+      fin: document.getElementById("heureFin"),
+      etat: document.getElementById("etat"),
+      add: document.getElementById("btnAjouter"),
+      edit: document.getElementById("btnModifier"),
+      del: document.getElementById("btnSupprimer"),
+    };
+
+    let disponibilites = [];
+    let selectionId = null;
+
+    el.add.addEventListener("click", ajouter);
+    el.edit.addEventListener("click", modifier);
+    el.del.addEventListener("click", supprimer);
+
+    el.date.value = new Date().toISOString().slice(0, 10);
+    afficher();
+
+    function msg(txt, type="ok"){ el.msg.textContent = txt; el.msg.dataset.type = type; }
+    function clearMsg(){ el.msg.textContent=""; el.msg.removeAttribute("data-type"); }
+
+    function lire() {
+      return {
+        date: (el.date.value||"").trim(),
+        debut: (el.debut.value||"").trim(),
+        fin: (el.fin.value||"").trim(),
+        etat: el.etat.value
+      };
+    }
+
+    function valide(d) {
+      if (!d.date || !d.debut || !d.fin){ msg("Complétez tous les champs.","err"); return false; }
+      if (d.debut >= d.fin){ msg("Début doit précéder fin.","err"); return false; }
+      return true;
+    }
+
+    function chevauche(aDeb, aFin, bDeb, bFin){
+      return aDeb < bFin && bDeb < aFin;
+    }
+
+    function ajouter() {
+      clearMsg();
+      const d = lire();
+      if (!valide(d)) return;
+
+      // Doublon exact
+      if (disponibilites.some(x => x.date===d.date && x.debut===d.debut && x.fin===d.fin)){
+        msg("Créneau déjà présent. Utilisez « Modifier » si besoin.","err"); return;
+      }
+      // Conflit horaire sur la même date
+      if (disponibilites.some(x => x.date===d.date && chevauche(d.debut,d.fin,x.debut,x.fin))){
+        msg("Chevauchement détecté sur cette date. Choisissez un autre horaire.","err"); return;
+      }
+
+      disponibilites.push({ id: Date.now()+Math.random(), ...d });
+      trier();
+      afficher();
+      msg("Créneau ajouté.");
+    }
+
+    function modifier() {
+      clearMsg();
+      if (!selectionId){ msg("Sélectionnez un créneau dans la liste.","err"); return; }
+
+      const d = lire();
+      if (!valide(d)) return;
+
+      // Conflit avec autres créneaux (sauf lui-même)
+      if (disponibilites.some(x => x.id!==selectionId && x.date===d.date && chevauche(d.debut,d.fin,x.debut,x.fin))){
+        msg("Chevauchement avec un autre créneau.","err"); return;
+      }
+
+      const i = disponibilites.findIndex(x => x.id===selectionId);
+      if (i === -1){ msg("Créneau introuvable.","err"); selectionId=null; return; }
+
+      disponibilites[i] = { id: selectionId, ...d };
+      trier();
+      afficher();
+      msg("Créneau modifié.");
+    }
+
+    function supprimer() {
+      clearMsg();
+      if (!selectionId){ msg("Sélectionnez un créneau à supprimer.","err"); return; }
+      disponibilites = disponibilites.filter(x => x.id !== selectionId);
+      selectionId = null;
+      afficher();
+      msg("Créneau supprimé.");
+    }
+
+    function trier(){
+      disponibilites.sort((a,b)=>{
+        if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+        if (a.debut !== b.debut) return a.debut < b.debut ? -1 : 1;
+        return a.fin < b.fin ? -1 : a.fin > b.fin ? 1 : 0;
+      });
+    }
+
+    function remplirForm(d){
+      el.date.value = d.date;
+      el.debut.value = d.debut;
+      el.fin.value = d.fin;
+      el.etat.value = d.etat;
+      selectionId = d.id;
+    }
+
+    function afficher(){
+      el.liste.innerHTML = "";
+      if (disponibilites.length === 0){
+        el.liste.innerHTML = `<p class="vide">Aucune disponibilité.</p>`;
+        return;
+      }
+      disponibilites.forEach(d=>{
+        const n = el.tpl.content.cloneNode(true);
+        const btn = n.querySelector(".ligne");
+        btn.dataset.id = d.id;
+        if (d.id === selectionId) btn.classList.add("selected");
+        n.querySelector(".date").textContent = d.date;
+        n.querySelector(".heures").textContent = `${d.debut} – ${d.fin}`;
+        const et = n.querySelector(".etat");
+        et.textContent = d.etat === "disponible" ? "Disponible" : "Occupé";
+        et.dataset.state = d.etat;
+        btn.addEventListener("click", ()=>{
+          // gestion de la sélection visuelle
+          selectionId = d.id;
+          remplirForm(d);
+          [...document.querySelectorAll(".ligne")].forEach(x=>x.classList.remove("selected"));
+          btn.classList.add("selected");
+        });
+        el.liste.appendChild(n);
+      });
+    }
+  </script>
+</body>
+</html>

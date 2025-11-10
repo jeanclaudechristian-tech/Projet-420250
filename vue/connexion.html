@@ -1,0 +1,50 @@
+<!-- /assets/vue/connexion.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tuto+ · Connexion</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{--rouge:#C8102E;--bord:#e5e7eb;--gris:#f8f8fb}
+    *{box-sizing:border-box} html,body{margin:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#fff;color:#111}
+    .wrap{max-width:520px;margin:56px auto;padding:0 16px}
+    .card{background:var(--gris);border:1px solid var(--bord);border-radius:12px;padding:20px}
+    h1{margin:0 0 12px;font-size:22px;font-weight:700}
+    .hint{color:#6b7280;font-size:13px;margin:0 0 10px}
+    .field{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+    label{font-weight:600;font-size:14px}
+    input{padding:10px 12px;border:1px solid var(--bord);border-radius:10px;background:#fff;font-size:14px}
+    .actions{display:grid;gap:8px;margin-top:14px}
+    .btn{padding:10px 14px;border-radius:10px;border:1px solid var(--bord);background:#fff;font-weight:700;cursor:not-allowed;opacity:.9}
+    .btn.primary{background:var(--rouge);color:#fff;border-color:transparent}
+    a.link{display:block;text-align:center;padding:10px 12px;border:1px solid var(--bord);border-radius:10px;text-decoration:none;color:#111;background:#fff}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card" aria-labelledby="titre">
+      <h1 id="titre">Connexion</h1>
+      <p class="hint">Saisissez vos identifiants. Le bouton est non fonctionnel ; utilisez les liens pour accéder aux pages de démonstration.</p>
+
+      <div class="field">
+        <label for="email">Courriel</label>
+        <input id="email" type="email" placeholder="prenom.nom@ahuntsic.qc.ca" autocomplete="username" />
+      </div>
+
+      <div class="field">
+        <label for="pwd">Mot de passe</label>
+        <input id="pwd" type="password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+
+      <div class="actions">
+        <button type="button" class="btn primary" title="Bouton non fonctionnel">Se connecter</button>
+        <a class="link" href="../index.html">Continuer comme Étudiant</a>
+        <a class="link" href="./calendrierDispo.html">Continuer comme Tuteur</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

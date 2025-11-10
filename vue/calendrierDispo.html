@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,18 +8,19 @@
   <link rel="stylesheet" href="../assets/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
+
 <body>
   <header class="tp-nav" role="banner">
-  <div class="tp-nav__inner">
-    <a class="tp-nav__brand" href="../index.html" aria-label="Accueil Collège Ahuntsic">
-      <img src="../assets/images/CollegeAhuntsic_Logo.png" alt="Collège Ahuntsic" class="tp-nav__logo">
-    </a>
+    <div class="tp-nav__inner">
+      <a class="tp-nav__brand" href="../index.html" aria-label="Accueil Collège Ahuntsic">
+        <img src="../assets/images/CollegeAhuntsic_Logo.png" alt="Collège Ahuntsic" class="tp-nav__logo">
+      </a>
 
-    <nav class="tp-nav__menu" role="navigation" aria-label="Navigation principale">
-      <a href="../index.html">Accueil</a>
-    </nav>
-  </div>
-</header>
+      <nav class="tp-nav__menu" role="navigation" aria-label="Navigation principale">
+        <a href="../index.html">Accueil</a>
+      </nav>
+    </div>
+  </header>
   <main class="conteneur">
     <section class="carte">
       <h1 class="titre">Gestion des disponibilités (tuteur)</h1>
@@ -89,25 +91,25 @@
     // Services S1→S4
     const SERVICES = [
       // S1
-      { id:"201-150-AH", nom:"Math appliquées à l'informatique 1" },
-      { id:"243-285-AH", nom:"Composants physiques du matériel" },
-      { id:"420-238-AH", nom:"Programmation orientée objet 1" },
-      { id:"420-239-AH", nom:"Systèmes d'exploitation" },
-      { id:"420-240-AH", nom:"Bureautique et dessin" },
+      { id: "201-150-AH", nom: "Math appliquées à l'informatique 1" },
+      { id: "243-285-AH", nom: "Composants physiques du matériel" },
+      { id: "420-238-AH", nom: "Programmation orientée objet 1" },
+      { id: "420-239-AH", nom: "Systèmes d'exploitation" },
+      { id: "420-240-AH", nom: "Bureautique et dessin" },
       // S2
-      { id:"201-151-AH", nom:"Math appliquées à l'informatique 2" },
-      { id:"420-241-AH", nom:"Programmation orientée objet 2" },
-      { id:"420-242-AH", nom:"Réseaux locaux" },
+      { id: "201-151-AH", nom: "Math appliquées à l'informatique 2" },
+      { id: "420-241-AH", nom: "Programmation orientée objet 2" },
+      { id: "420-242-AH", nom: "Réseaux locaux" },
       // S3
-      { id:"350-131-AH", nom:"Communication en informatique" },
-      { id:"420-243-AH", nom:"Programmation orientée objet 3" },
-      { id:"420-244-AH", nom:"Bases de données applicatives" },
-      { id:"570-188-AH", nom:"Interfaces graphiques adaptatives" },
+      { id: "350-131-AH", nom: "Communication en informatique" },
+      { id: "420-243-AH", nom: "Programmation orientée objet 3" },
+      { id: "420-244-AH", nom: "Bases de données applicatives" },
+      { id: "570-188-AH", nom: "Interfaces graphiques adaptatives" },
       // S4
-      { id:"201-152-AH", nom:"Math appliquées à l’infographie jeux vidéo" },
-      { id:"420-245-AH", nom:"Programmation Web 1" },
-      { id:"420-246-AH", nom:"Programmation Microsoft" },
-      { id:"420-247-AH", nom:"Programmation Android" },
+      { id: "201-152-AH", nom: "Math appliquées à l’infographie jeux vidéo" },
+      { id: "420-245-AH", nom: "Programmation Web 1" },
+      { id: "420-246-AH", nom: "Programmation Microsoft" },
+      { id: "420-247-AH", nom: "Programmation Android" },
     ];
 
     // Refs
@@ -140,10 +142,10 @@
     let selectionId = null;
 
     // Defaults
-    el.date.value = new Date().toISOString().slice(0,10);
+    el.date.value = new Date().toISOString().slice(0, 10);
 
     // Events
-    ["change","input"].forEach(evt=>{
+    ["change", "input"].forEach(evt => {
       el.service.addEventListener(evt, majEtatSauvegarde);
       el.date.addEventListener(evt, majEtatSauvegarde);
       el.debut.addEventListener(evt, majEtatSauvegarde);
@@ -162,47 +164,50 @@
         if (data && Array.isArray(data.events)) {
           disponibilites = data.events;
         }
-      } catch {}
+      } catch { }
       trier(); render(); majEtatSauvegarde();
     });
 
-    function setMsg(text, type="ok"){ el.msg.textContent = text; el.msg.dataset.type = type; }
-    function clearMsg(){ el.msg.textContent=""; el.msg.removeAttribute("data-type"); }
-    function setSaveStatus(text, ok=true){
+    function setMsg(text, type = "ok") { el.msg.textContent = text; el.msg.dataset.type = type; }
+    function clearMsg() { el.msg.textContent = ""; el.msg.removeAttribute("data-type"); }
+    function setSaveStatus(text, ok = true) {
       el.saveStatus.textContent = text;
       el.saveStatus.dataset.type = ok ? "ok" : "err";
     }
 
-    function lire(){
+    const TUTEUR_ID = localStorage.getItem("tuteurId") || "t1";
+    function lire() {
       return {
-        id: selectionId ?? (Date.now()+Math.random()),
+        id: selectionId ?? (Date.now() + Math.random()),
         serviceId: el.service.value,
-        date: (el.date.value||"").trim(),
-        debut: (el.debut.value||"").trim(),
-        fin: (el.fin.value||"").trim(),
-        etat: el.etat.value
+        date: (el.date.value || "").trim(),
+        debut: (el.debut.value || "").trim(),
+        fin: (el.fin.value || "").trim(),
+        etat: el.etat.value,
+        tuteurId: TUTEUR_ID 
       };
     }
 
-    function valide(d){
-      if (!d.serviceId || !d.date || !d.debut || !d.fin){ return false; }
-      if (d.debut >= d.fin){ return false; }
+
+    function valide(d) {
+      if (!d.serviceId || !d.date || !d.debut || !d.fin) { return false; }
+      if (d.debut >= d.fin) { return false; }
       return true;
     }
 
-    function chevauche(aDeb,aFin,bDeb,bFin){
+    function chevauche(aDeb, aFin, bDeb, bFin) {
       return aDeb < bFin && bDeb < aFin;
     }
 
-    function ajouter(){
+    function ajouter() {
       clearMsg();
       const d = lire();
-      if (!valide(d)){ setMsg("Champs requis et ordre des heures (début < fin).", "err"); return; }
+      if (!valide(d)) { setMsg("Champs requis et ordre des heures (début < fin).", "err"); return; }
 
-      if (disponibilites.some(x => x.serviceId===d.serviceId && x.date===d.date && x.debut===d.debut && x.fin===d.fin)){
+      if (disponibilites.some(x => x.serviceId === d.serviceId && x.date === d.date && x.debut === d.debut && x.fin === d.fin)) {
         setMsg("Créneau déjà présent.", "err"); return;
       }
-      if (disponibilites.some(x => x.serviceId===d.serviceId && x.date===d.date && chevauche(d.debut,d.fin,x.debut,x.fin))){
+      if (disponibilites.some(x => x.serviceId === d.serviceId && x.date === d.date && chevauche(d.debut, d.fin, x.debut, x.fin))) {
         setMsg("Chevauchement pour ce service et cette date.", "err"); return;
       }
 
@@ -210,39 +215,39 @@
       trier(); render(); setMsg("Créneau ajouté."); majEtatSauvegarde();
     }
 
-    function modifier(){
+    function modifier() {
       clearMsg();
-      if (!selectionId){ setMsg("Sélectionnez un créneau dans la liste.", "err"); return; }
+      if (!selectionId) { setMsg("Sélectionnez un créneau dans la liste.", "err"); return; }
       const d = lire();
-      if (!valide(d)){ setMsg("Champs requis et ordre des heures (début < fin).", "err"); return; }
+      if (!valide(d)) { setMsg("Champs requis et ordre des heures (début < fin).", "err"); return; }
 
-      if (disponibilites.some(x => x.id!==selectionId && x.serviceId===d.serviceId && x.date===d.date && chevauche(d.debut,d.fin,x.debut,x.fin))){
+      if (disponibilites.some(x => x.id !== selectionId && x.serviceId === d.serviceId && x.date === d.date && chevauche(d.debut, d.fin, x.debut, x.fin))) {
         setMsg("Chevauchement avec un autre créneau.", "err"); return;
       }
-      const i = disponibilites.findIndex(x=>x.id===selectionId);
-      if (i === -1){ setMsg("Créneau introuvable.", "err"); selectionId=null; return; }
+      const i = disponibilites.findIndex(x => x.id === selectionId);
+      if (i === -1) { setMsg("Créneau introuvable.", "err"); selectionId = null; return; }
 
       disponibilites[i] = d;
       trier(); render(); setMsg("Créneau modifié."); majEtatSauvegarde();
     }
 
-    function supprimer(){
+    function supprimer() {
       clearMsg();
-      if (!selectionId){ setMsg("Sélectionnez un créneau à supprimer.", "err"); return; }
-      disponibilites = disponibilites.filter(x=>x.id!==selectionId);
-      selectionId=null; render(); setMsg("Créneau supprimé."); majEtatSauvegarde();
+      if (!selectionId) { setMsg("Sélectionnez un créneau à supprimer.", "err"); return; }
+      disponibilites = disponibilites.filter(x => x.id !== selectionId);
+      selectionId = null; render(); setMsg("Créneau supprimé."); majEtatSauvegarde();
     }
 
-    function trier(){
-      disponibilites.sort((a,b)=>{
-        if (a.serviceId!==b.serviceId) return a.serviceId<b.serviceId?-1:1;
-        if (a.date!==b.date)           return a.date<b.date?-1:1;
-        if (a.debut!==b.debut)         return a.debut<b.debut?-1:1;
+    function trier() {
+      disponibilites.sort((a, b) => {
+        if (a.serviceId !== b.serviceId) return a.serviceId < b.serviceId ? -1 : 1;
+        if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+        if (a.debut !== b.debut) return a.debut < b.debut ? -1 : 1;
         return 0;
       });
     }
 
-    function remplirForm(d){
+    function remplirForm(d) {
       el.service.value = d.serviceId;
       el.date.value = d.date;
       el.debut.value = d.debut;
@@ -251,26 +256,26 @@
       selectionId = d.id;
     }
 
-    function render(){
+    function render() {
       el.liste.innerHTML = "";
-      el.empty.hidden = disponibilites.length>0;
+      el.empty.hidden = disponibilites.length > 0;
 
-      disponibilites.forEach(d=>{
+      disponibilites.forEach(d => {
         const n = el.tpl.content.cloneNode(true);
         const btn = n.querySelector(".ligne");
-        if (d.id===selectionId) btn.classList.add("selected");
+        if (d.id === selectionId) btn.classList.add("selected");
 
-        const serviceNom = (SERVICES.find(s=>s.id===d.serviceId)||{}).nom || d.serviceId;
+        const serviceNom = (SERVICES.find(s => s.id === d.serviceId) || {}).nom || d.serviceId;
         n.querySelector(".service").textContent = `${d.serviceId} — ${serviceNom}`;
         n.querySelector(".date").textContent = d.date;
         n.querySelector(".heures").textContent = `${d.debut} – ${d.fin}`;
         const et = n.querySelector(".etat");
-        et.textContent = d.etat==="disponible" ? "Disponible" : "Occupé";
+        et.textContent = d.etat === "disponible" ? "Disponible" : "Occupé";
         et.dataset.state = d.etat;
 
-        btn.addEventListener("click", ()=>{
+        btn.addEventListener("click", () => {
           remplirForm(d);
-          [...document.querySelectorAll(".ligne")].forEach(x=>x.classList.remove("selected"));
+          [...document.querySelectorAll(".ligne")].forEach(x => x.classList.remove("selected"));
           btn.classList.add("selected");
           majEtatSauvegarde();
         });
@@ -279,7 +284,7 @@
       });
     }
 
-    function majEtatSauvegarde(){
+    function majEtatSauvegarde() {
       const d = lire();
       const ok = valide(d);
       el.saveBtn.disabled = !ok; // Pourquoi : empêcher sauvegarde si formulaire incomplet/incorrect
@@ -290,14 +295,14 @@
       }
     }
 
-    function onSave(){
+    function onSave() {
       const d = lire();
-      if (!valide(d)){
+      if (!valide(d)) {
         setMsg("Champs requis et ordre des heures (début < fin).", "err");
         setSaveStatus("Sauvegarde bloquée : formulaire incomplet/incorrect.", false);
         return; // bloque la sauvegarde
       }
-      try{
+      try {
         const payload = { events: disponibilites };
         if (typeof saveCalendar === "function") {
           saveCalendar(payload);
@@ -305,10 +310,11 @@
         } else {
           setSaveStatus("Fonction saveCalendar introuvable (vérifie sauvegarde.js).", false);
         }
-      }catch{
+      } catch {
         setSaveStatus("Erreur de sauvegarde.", false);
       }
     }
   </script>
 </body>
+
 </html>

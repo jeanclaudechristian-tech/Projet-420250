@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -7,18 +8,19 @@
   <link rel="stylesheet" href="../assets/styles.css" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
 </head>
+
 <body>
   <header class="tp-nav" role="banner">
-  <div class="tp-nav__inner">
-    <a class="tp-nav__brand" href="../index.html" aria-label="Accueil Collège Ahuntsic">
-      <img src="../assets/images/CollegeAhuntsic_Logo.png" alt="Collège Ahuntsic" class="tp-nav__logo">
-    </a>
+    <div class="tp-nav__inner">
+      <a class="tp-nav__brand" href="../index.html" aria-label="Accueil Collège Ahuntsic">
+        <img src="../assets/images/CollegeAhuntsic_Logo.png" alt="Collège Ahuntsic" class="tp-nav__logo">
+      </a>
+      <nav class="tp-nav__menu" role="navigation" aria-label="Navigation principale">
+        <a href="../index.html">Accueil</a>
+      </nav>
+    </div>
+  </header>
 
-    <nav class="tp-nav__menu" role="navigation" aria-label="Navigation principale">
-      <a href="../index.html">Accueil</a>
-    </nav>
-  </div>
-</header>
   <main class="conteneur">
     <section class="carte">
       <h1 class="titre">Choisir le service et un créneau</h1>
@@ -27,11 +29,6 @@
         <label class="champ">
           <span class="libelle">Service</span>
           <select id="service" required></select>
-        </label>
-
-        <label class="champ">
-          <span class="libelle">Tuteur</span>
-          <select id="tuteur" required></select>
         </label>
       </form>
     </section>
@@ -57,117 +54,74 @@
   </template>
 
   <script>
-    // ===== mêmes tables (S1→S4) =====
     const SERVICES = [
-      { id:"201-150-AH", nom:"Math appliquées à l'informatique 1" },
-      { id:"243-285-AH", nom:"Composants physiques du matériel" },
-      { id:"420-238-AH", nom:"Programmation orientée objet 1" },
-      { id:"420-239-AH", nom:"Systèmes d'exploitation" },
-      { id:"420-240-AH", nom:"Bureautique et dessin" },
-      { id:"201-151-AH", nom:"Math appliquées à l'informatique 2" },
-      { id:"420-241-AH", nom:"Programmation orientée objet 2" },
-      { id:"420-242-AH", nom:"Réseaux locaux" },
-      { id:"350-131-AH", nom:"Communication en informatique" },
-      { id:"420-243-AH", nom:"Programmation orientée objet 3" },
-      { id:"420-244-AH", nom:"Bases de données applicatives" },
-      { id:"570-188-AH", nom:"Interfaces graphiques adaptatives" },
-      { id:"201-152-AH", nom:"Math appliquées à l’infographie jeux vidéo" },
-      { id:"420-245-AH", nom:"Programmation Web 1" },
-      { id:"420-246-AH", nom:"Programmation Microsoft" },
-      { id:"420-247-AH", nom:"Programmation Android" },
+      { id: "201-150-AH", nom: "Math appliquées à l'informatique 1 (M. Tremblay, M. Gagnon)" },
+      { id: "243-285-AH", nom: "Composants physiques du matériel (M. Lefebvre, M. Gagnon)" },
+      { id: "420-238-AH", nom: "Programmation orientée objet 1 (Mme Nguyen, Mme Roy)" },
+      { id: "420-239-AH", nom: "Systèmes d'exploitation (M. Lefebvre, M. Gagnon)" },
+      { id: "420-240-AH", nom: "Bureautique et dessin (Mme Dubois, Mme Roy)" },
+      { id: "201-151-AH", nom: "Math appliquées à l'informatique 2 (M. Tremblay, M. Gagnon)" },
+      { id: "420-241-AH", nom: "Programmation orientée objet 2 (Mme Nguyen, Mme Roy)" },
+      { id: "420-242-AH", nom: "Réseaux locaux (M. Lefebvre, M. Gagnon)" },
+      { id: "350-131-AH", nom: "Communication en informatique (Mme Dubois, Mme Roy)" },
+      { id: "420-243-AH", nom: "Programmation orientée objet 3 (Mme Nguyen, Mme Roy)" },
+      { id: "420-244-AH", nom: "Bases de données applicatives (Mme Nguyen, M. Tremblay)" },
+      { id: "570-188-AH", nom: "Interfaces graphiques adaptatives (Mme Dubois, Mme Roy)" },
+      { id: "201-152-AH", nom: "Math appliquées à l’infographie jeux vidéo (M. Tremblay, M. Gagnon)" },
+      { id: "420-245-AH", nom: "Programmation Web 1 (Mme Nguyen, Mme Roy, M. Tremblay)" },
+      { id: "420-246-AH", nom: "Programmation Microsoft (M. Lefebvre, M. Gagnon, Mme Roy)" },
+      { id: "420-247-AH", nom: "Programmation Android (Mme Nguyen, M. Tremblay)" },
     ];
 
-    const TUTEURS = [
-      { id:"t1", nom:"Mme Dubois" },
-      { id:"t2", nom:"M. Tremblay" },
-      { id:"t3", nom:"Mme Nguyen" },
-      { id:"t4", nom:"M. Lefebvre" },
-      { id:"t5", nom:"Mme Roy" },
-      { id:"t6", nom:"M. Gagnon" },
-    ];
-
-    const OFFRES = {
-      "201-150-AH":["t2","t6"],
-      "243-285-AH":["t4","t6"],
-      "420-238-AH":["t3","t5"],
-      "420-239-AH":["t4","t6"],
-      "420-240-AH":["t1","t5"],
-      "201-151-AH":["t2","t6"],
-      "420-241-AH":["t3","t5"],
-      "420-242-AH":["t4","t6"],
-      "350-131-AH":["t1","t5"],
-      "420-243-AH":["t3","t5"],
-      "420-244-AH":["t3","t2"],
-      "570-188-AH":["t1","t5"],
-      "201-152-AH":["t2","t6"],
-      "420-245-AH":["t3","t5","t2"],
-      "420-246-AH":["t4","t6","t5"],
-      "420-247-AH":["t3","t2"],
-    };
-
-    const LS_DISPOS = "tutoplus_dispos";
-    const LS_RES = "tutoplus_reservations";
 
     const el = {
       service: document.getElementById("service"),
-      tuteur:  document.getElementById("tuteur"),
-      liste:   document.getElementById("liste"),
-      vide:    document.getElementById("vide"),
-      tpl:     document.getElementById("tpl"),
+      liste: document.getElementById("liste"),
+      vide: document.getElementById("vide"),
+      tpl: document.getElementById("tpl"),
       btnBook: document.getElementById("btnBook"),
-      toast:   document.getElementById("toast"),
+      toast: document.getElementById("toast"),
     };
 
     let selection = null;
 
-    // Init
-    SERVICES.forEach(s=>{ const o=document.createElement("option"); o.value=s.id; o.textContent=`${s.id} — ${s.nom}`; el.service.appendChild(o); });
-    el.service.addEventListener("change", onServiceChange);
-    el.tuteur.addEventListener("change", render);
+    SERVICES.forEach(s => {
+      const o = document.createElement("option");
+      o.value = s.id; o.textContent = `${s.id} — ${s.nom}`;
+      el.service.appendChild(o);
+    });
+    el.service.addEventListener("change", render);
     el.btnBook.addEventListener("click", book);
-    onServiceChange();
+    render();
 
-    function onServiceChange(){
-      const ids = OFFRES[el.service.value] || [];
-      el.tuteur.innerHTML = "";
-      ids.forEach(id=>{
-        const t = TUTEURS.find(x=>x.id===id);
-        if (!t) return;
-        const o = document.createElement("option"); o.value=t.id; o.textContent=t.nom; el.tuteur.appendChild(o);
-      });
-      render();
-    }
+    function loadCal() { try { return JSON.parse(localStorage.getItem("calendarData") || "{}"); } catch { return {}; } }
+    function saveCal(obj) { localStorage.setItem("calendarData", JSON.stringify(obj)); }
+    function nowISO() { const d = new Date(); return { date: d.toISOString().slice(0, 10), time: d.toTimeString().slice(0, 5) }; }
+    function isPast(date, debut) { const n = nowISO(); return date < n.date || (date === n.date && debut <= n.time); }
 
-    function loadDispos(){ try { return JSON.parse(localStorage.getItem(LS_DISPOS)||"[]"); } catch { return []; } }
-    function saveDispos(list){ localStorage.setItem(LS_DISPOS, JSON.stringify(list)); }
-    function loadRes(){ try { return JSON.parse(localStorage.getItem(LS_RES)||"[]"); } catch { return []; } }
-    function saveRes(list){ localStorage.setItem(LS_RES, JSON.stringify(list)); }
-
-    function nowISO(){ const d=new Date(); return {date:d.toISOString().slice(0,10), time:d.toTimeString().slice(0,5)}; }
-    function isPast(date, debut){ const n=nowISO(); return date<n.date || (date===n.date && debut<=n.time); }
-
-    function render(){
+    function render() {
       selection = null;
       el.btnBook.disabled = true;
 
       const serviceId = el.service.value;
-      const tuteurId  = el.tuteur.value;
+      const data = loadCal();
+      const events = Array.isArray(data.events) ? data.events : [];
 
-      const rows = loadDispos()
-        .filter(x => x.serviceId===serviceId && x.tuteurId===tuteurId && x.etat==="disponible")
+      const rows = events
+        .filter(x => x.serviceId === serviceId && x.etat === "disponible")
         .filter(x => !isPast(x.date, x.debut))
-        .sort((a,b)=> a.date!==b.date ? (a.date<b.date?-1:1) : (a.debut<b.debut?-1:1));
+        .sort((a, b) => a.date !== b.date ? (a.date < b.date ? -1 : 1) : (a.debut < b.debut ? -1 : 1));
 
       el.liste.innerHTML = "";
-      el.vide.hidden = rows.length>0;
+      el.vide.hidden = rows.length > 0;
 
-      rows.forEach(r=>{
+      rows.forEach(r => {
         const n = el.tpl.content.cloneNode(true);
         const btn = n.querySelector(".ligne");
         n.querySelector(".date").textContent = r.date;
         n.querySelector(".heures").textContent = `${r.debut} – ${r.fin}`;
-        btn.addEventListener("click", ()=>{
-          [...document.querySelectorAll(".ligne")].forEach(x=>x.classList.remove("selected"));
+        btn.addEventListener("click", () => {
+          [...document.querySelectorAll(".ligne")].forEach(x => x.classList.remove("selected"));
           btn.classList.add("selected");
           selection = r;
           el.btnBook.disabled = false;
@@ -176,35 +130,21 @@
       });
     }
 
-    function book(){
+    function book() {
       if (!selection) return;
-      const service = SERVICES.find(s=>s.id===selection.serviceId);
-      const tuteur  = TUTEURS.find(t=>t.id===selection.tuteurId);
-
-      const res = loadRes();
-      res.push({
-        id:`res-${Date.now()}`,
-        serviceId: selection.serviceId,
-        service: service ? service.nom : selection.serviceId,
-        tuteurId: selection.tuteurId,
-        tuteur: tuteur ? tuteur.nom : selection.tuteurId,
-        date: selection.date, debut: selection.debut, fin: selection.fin,
-        statut:"réservé", createdAt: Date.now()
-      });
-      saveRes(res);
-
-      const all = loadDispos();
-      const idx = all.findIndex(x=>x.id===selection.id);
-      if (idx!==-1){ all[idx].etat="occupe"; saveDispos(all); }
-
-      show("Réservation confirmée ✔");
+      const data = loadCal();
+      const events = Array.isArray(data.events) ? data.events : [];
+      const idx = events.findIndex(x => x.id === selection.id);
+      if (idx !== -1) {
+        events[idx].etat = "occupe";
+        data.events = events;
+        data.lastModified = new Date().toISOString();
+        saveCal(data);
+      }
+      alert("Rendez-vous confirmé");
       render();
-    }
-
-    function show(txt){
-      el.toast.textContent = txt; el.toast.dataset.type="ok";
-      el.toast.hidden=false; setTimeout(()=> el.toast.hidden=true, 3000);
     }
   </script>
 </body>
+
 </html>

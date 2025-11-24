@@ -3,7 +3,8 @@
   --rouge-fonce: #8b0e16;
   --noir: #111;
   --blanc: #fff;
-  --vert: #1b8f3a; /* pour les badges "disponible" */
+  --vert: #1b8f3a;
+  /* pour les badges "disponible" */
 }
 
 /* === STYLE GLOBAL === */
@@ -80,7 +81,7 @@ li {
 
 li:hover {
   transform: translateY(-2px);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 strong {
@@ -105,14 +106,16 @@ strong {
   margin-bottom: 0.4rem;
 }
 
-input, select {
+input,
+select {
   padding: 0.5rem;
   border: 1px solid var(--noir);
   border-radius: 5px;
   font-size: 1rem;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
   border-color: var(--rouge);
   outline: none;
 }
@@ -195,6 +198,51 @@ input:focus, select:focus {
   color: var(--rouge);
 }
 
+/* === SÉPARATION DES DIV RENDEZ-VOUS ET HISTORIQUE === */
+.container-large {
+  width: 100vw;
+  max-width: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 32px;
+  /* Espace entre les blocs */
+}
+
+.rendezVous {
+  flex: 1 1 0;
+  max-width: 650px;
+  min-width: 340px;
+  margin-left: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.historique {
+  flex: 0 0 340px;
+  max-width: 340px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: 0;
+}
+
+@media (max-width: 1000px) {
+  .container-large {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .rendezVous,
+  .historique {
+    max-width: 100%;
+    min-width: unset;
+    margin: 0 auto;
+  }
+}
+
 /* === MESSAGES / CONFIRMATIONS === */
 .message {
   text-align: center;
@@ -223,7 +271,7 @@ input:focus, select:focus {
   padding: 2rem;
   border-radius: 10px;
   border: 2px solid var(--rouge);
-  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
   max-width: 400px;
   width: 90%;
   text-align: center;
@@ -268,21 +316,22 @@ input:focus, select:focus {
   outline: none;
   border-color: var(--rouge);
 }
+
 .link {
-  display: inline-block;       
-  text-decoration: none;       
+  display: inline-block;
+  text-decoration: none;
   font-weight: 600;
-  color: var(--blanc);         
+  color: var(--blanc);
   background-color: var(--rouge);
-  padding: 0.6rem 1.2rem;      
-  border-radius: 6px;         
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
   text-align: center;
   transition: background-color 0.2s, color 0.2s;
-  margin-top: 0.5rem;          
+  margin-top: 0.5rem;
 }
 
 .link:hover {
-  background-color: var(--rouge-fonce); 
+  background-color: var(--rouge-fonce);
   color: var(--blanc);
 }
 

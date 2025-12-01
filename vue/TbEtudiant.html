@@ -21,45 +21,46 @@
     </div>
   </header>
 
-  <main>
-    <div class="container-large">
-      <div class="rendezVous">
-        <section class="carte">
-          <h1 class="titre">Choisir le service et un créneau</h1>
-          <form class="grille" novalidate>
-            <label class="champ">
-              <span class="libelle">Service</span>
-              <select id="service" required></select>
-            </label>
-          </form>
-        </section>
-        <section class="carte">
-          <div class="entete-liste">
-            <h2 class="soustitre">Créneaux disponibles</h2>
-            <button id="btnBook" class="bouton primaire" disabled>Prendre rendez-vous</button>
-          </div>
-          <div id="liste" class="liste"></div>
-          <p id="vide" class="vide" hidden>
-            Aucun créneau disponible pour ce choix.
-          </p>
-        </section>
+  <main class="conteneur">
+    <section class="carte">
+      <h1 class="titre">Choisir le service et un créneau</h1>
+
+      <form class="grille" novalidate>
+        <label class="champ">
+          <span class="libelle">Service</span>
+          <select id="service" required></select>
+        </label>
+      </form>
+    </section>
+
+    <section class="carte">
+      <div class="entete-liste">
+        <h2 class="soustitre">Créneaux disponibles</h2>
+        <button id="btnBook" class="bouton primaire" disabled>Prendre rendez-vous</button>
       </div>
-      <div class="historique">
-        <section>
-          <h1 class="titre">Historique</h1>
-          <ul>
-            <li>201-150-AH — Math appliquées à l'informatique 1 (M. Tremblay, M. Gagnon)</li>
-            <li>420-238-AH — Programmation orientée objet 1 (Mme Nguyen, Mme Roy)</li>
-            <li>420-239-AH — Systèmes d'exploitation (M. Lefebvre, M. Gagnon)</li>
-            <li>243-285-AH — Composants physiques du matériel (M. Lefebvre, M. Gagnon)</li>
-          </ul>
-        </section>
-        <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-      </div>
-    </div>
+      <div id="liste" class="liste"></div>
+      <p id="vide" class="vide" hidden>Aucun créneau disponible pour ce choix.</p>
+    </section>
+
+    <!-- Carte de confirmation visible après la réservation -->
+    <section id="zoneConfirmation" class="carte confirmation" hidden>
+      <h2 class="soustitre">Rendez-vous confirmé</h2>
+      <p class="confirmation__intro">
+        Ton rendez-vous a été réservé avec succès. Garde ces informations.
+      </p>
+      <ul class="confirmation__liste">
+        <li><strong>Date :</strong> <span id="confDate"></span></li>
+        <li><strong>Heure :</strong> <span id="confHeure"></span></li>
+        <li><strong>Tuteur :</strong> <span id="confTuteur"></span></li>
+        <li><strong>Service :</strong> <span id="confService"></span></li>
+      </ul>
+      <p class="confirmation__note">
+        Ce message reste visible au moins 5 secondes après la réservation.
+      </p>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   </main>
-
-
 
   <template id="tpl">
     <button type="button" class="ligne">
@@ -89,7 +90,7 @@
       { id: "420-247-AH", nom: "Programmation Android (Mme Nguyen, M. Tremblay)" },
     ];
 
-
+    // Raccourcis vers les éléments du DOM
     const el = {
       service: document.getElementById("service"),
       liste: document.getElementById("liste"),
@@ -97,24 +98,60 @@
       tpl: document.getElementById("tpl"),
       btnBook: document.getElementById("btnBook"),
       toast: document.getElementById("toast"),
+      // éléments pour la carte de confirmation
+      zoneConfirmation: document.getElementById("zoneConfirmation"),
+      confDate: document.getElementById("confDate"),
+      confHeure: document.getElementById("confHeure"),
+      confTuteur: document.getElementById("confTuteur"),
+      confService: document.getElementById("confService"),
     };
 
+    // créneau sélectionné par l’étudiant
     let selection = null;
 
+    // Remplir le <select> des services
     SERVICES.forEach(s => {
       const o = document.createElement("option");
-      o.value = s.id; o.textContent = `${s.id} — ${s.nom}`;
+      o.value = s.id;
+      o.textContent = `${s.id} — ${s.nom}`;
       el.service.appendChild(o);
     });
+
     el.service.addEventListener("change", render);
     el.btnBook.addEventListener("click", book);
+
+    // Afficher la liste au chargement
     render();
 
-    function loadCal() { try { return JSON.parse(localStorage.getItem("calendarData") || "{}"); } catch { return {}; } }
-    function saveCal(obj) { localStorage.setItem("calendarData", JSON.stringify(obj)); }
-    function nowISO() { const d = new Date(); return { date: d.toISOString().slice(0, 10), time: d.toTimeString().slice(0, 5) }; }
-    function isPast(date, debut) { const n = nowISO(); return date < n.date || (date === n.date && debut <= n.time); }
+    // Charger / sauver les données de calendrier dans localStorage
+    function loadCal() {
+      try {
+        return JSON.parse(localStorage.getItem("calendarData") || "{}");
+      } catch {
+        return {};
+      }
+    }
 
+    function saveCal(obj) {
+      localStorage.setItem("calendarData", JSON.stringify(obj));
+    }
+
+    // Retourne la date et l’heure actuelle (YYYY-MM-DD, HH:MM)
+    function nowISO() {
+      const d = new Date();
+      return {
+        date: d.toISOString().slice(0, 10),
+        time: d.toTimeString().slice(0, 5)
+      };
+    }
+
+    // Vrai si le créneau est dans le passé (à exclure de la liste)
+    function isPast(date, debut) {
+      const n = nowISO();
+      return date < n.date || (date === n.date && debut <= n.time);
+    }
+
+    // Affiche les créneaux disponibles pour le service choisi
     function render() {
       selection = null;
       el.btnBook.disabled = true;
@@ -126,7 +163,10 @@
       const rows = events
         .filter(x => x.serviceId === serviceId && x.etat === "disponible")
         .filter(x => !isPast(x.date, x.debut))
-        .sort((a, b) => a.date !== b.date ? (a.date < b.date ? -1 : 1) : (a.debut < b.debut ? -1 : 1));
+        .sort((a, b) => {
+          if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+          return a.debut < b.debut ? -1 : 1;
+        });
 
       el.liste.innerHTML = "";
       el.vide.hidden = rows.length > 0;
@@ -136,29 +176,84 @@
         const btn = n.querySelector(".ligne");
         n.querySelector(".date").textContent = r.date;
         n.querySelector(".heures").textContent = `${r.debut} – ${r.fin}`;
+
+        // clic sur une ligne = sélection du créneau
         btn.addEventListener("click", () => {
           [...document.querySelectorAll(".ligne")].forEach(x => x.classList.remove("selected"));
           btn.classList.add("selected");
           selection = r;
           el.btnBook.disabled = false;
         });
+
         el.liste.appendChild(n);
       });
     }
 
+    // Affiche un petit message (toast) en bas de l’écran
+    function afficherToast(message) {
+      el.toast.textContent = message;
+      el.toast.hidden = false;
+    }
+
+    // Réserver le créneau sélectionné
     function book() {
       if (!selection) return;
+
       const data = loadCal();
       const events = Array.isArray(data.events) ? data.events : [];
       const idx = events.findIndex(x => x.id === selection.id);
+
       if (idx !== -1) {
+        // Marquer le créneau comme occupé
         events[idx].etat = "occupe";
         data.events = events;
         data.lastModified = new Date().toISOString();
         saveCal(data);
       }
-      alert("Rendez-vous confirmé");
+
+      // [NOUVEAU] Appeler la fonction confirmer() pour afficher la carte de confirmation
+      confirmer(selection);
+
+      // Recharger la liste pour enlever le créneau réservé
       render();
+    }
+
+    //  Affiche la confirmation avec date, heure, tuteur et service
+    function confirmer(rdv) {
+      // Récupérer le service choisi pour afficher son nom complet
+      const serviceId = el.service.value;
+      const serviceObj = SERVICES.find(s => s.id === serviceId);
+      const serviceNom = serviceObj ? serviceObj.nom : serviceId;
+
+      // Essayer d’extraire les noms des tuteurs entre parenthèses
+      let tuteurNom = "Tuteur à confirmer";
+      if (serviceObj && serviceObj.nom.includes("(")) {
+        const part = serviceObj.nom.split("(")[1];
+        tuteurNom = part.replace(")", "");
+      }
+
+      // Remplir les champs de la carte de confirmation
+      el.confDate.textContent = rdv.date;
+      el.confHeure.textContent = `${rdv.debut} – ${rdv.fin}`;
+      el.confTuteur.textContent = tuteurNom;
+      el.confService.textContent = serviceNom;
+
+      // Rendre la carte visible
+      el.zoneConfirmation.hidden = false;
+
+      // Règle métier : message visible au moins 5 secondes
+      let tempsRestant = 5;
+      afficherToast(`Rendez-vous confirmé ✔ (${tempsRestant}s)`);
+
+      const intervalId = setInterval(() => {
+        tempsRestant--;
+        if (tempsRestant > 0) {
+          afficherToast(`Rendez-vous confirmé ✔ (${tempsRestant}s)`);
+        } else {
+          clearInterval(intervalId);
+          el.toast.hidden = true;
+        }
+      }, 1000);
     }
   </script>
 </body>

@@ -356,3 +356,41 @@ footer {
   margin-top: 2rem;
   font-size: 0.9rem;
 }
+/* Carte de confirmation */
+.confirmation {
+  margin-top: 16px;
+}
+
+.confirmation__intro {
+  margin-bottom: 8px;
+}
+
+.confirmation__liste {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0 4px;
+}
+
+.confirmation__liste li {
+  margin: 4px 0;
+}
+
+.confirmation__note {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* Toast de confirmation */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  background: #1b4332;
+  color: #f1f1f1;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 30;
+}

@@ -355,4 +355,73 @@ footer {
   padding: 1rem 0;
   margin-top: 2rem;
   font-size: 0.9rem;
+} 
+
+
+
+
+/* CONTENU PRINCIPAL */
+main {
+  max-width: 700px;
+  margin: 2rem auto;
+  padding: 1.5rem 2rem;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+h2 {
+  margin-top: 0;
+  color: #21354a;
+  font-size: 1.5rem;
+}
+
+p.intro {
+  color: #4a5568;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+/* FORMULAIRE */
+.form-group {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  color: #1a202c;
+}
+
+input,
+textarea {
+  padding: 0.65rem 0.8rem;
+  border-radius: 4px;
+  border: 1px solid #cbd5e0;
+  font-size: 0.95rem;
+  font-family: inherit;
+}
+
+button {
+  margin-top: 0.5rem;
+  padding: 0.7rem 1rem;
+  background-color:red;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* FOOTER COMMUN */
+footer {
+  margin-top: 2rem;
+  padding: 0.8rem 1.5rem;
+  background-color: black;
+  color: #e2e8f0;
+  font-size: 0.8rem;
+  text-align: center;
 }

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact tuteur - Tuto+</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+ <header class="tp-nav" role="banner">
+  <div class="tp-nav__inner">
+    <a class="tp-nav__brand" href="../index.html" aria-label="Accueil Collège Ahuntsic">
+      <img src="../assets/images/CollegeAhuntsic_Logo.png" alt="Collège Ahuntsic" class="tp-nav__logo">
+    </a>
+
+    <nav class="tp-nav__menu" role="navigation" aria-label="Navigation principale">
+      <a href="../index.html">Accueil</a>
+    </nav>
+  </div>
+</header>
+  <main>
+    <h2>Contacter un tuteur</h2>
+    <p class="intro">
+      Utilise ce formulaire pour poser une question à ton tuteur avant la rencontre.
+    </p>
+
+    <form action="confirmation.html" method="get">
+      <div class="form-group">
+        <label for="nom">Nom complet *</label>
+        <input type="text" id="nom" name="nom" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Courriel institutionnel *</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="sujet">Sujet de la demande *</label>
+        <input type="text" id="sujet" name="sujet" required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message (max 500 caractères) *</label>
+        <textarea id="message" name="message" rows="5" maxlength="500" required></textarea>
+      </div>
+
+      <button type="submit">Envoyer le message</button>
+    </form>
+  </main>
+
+  <footer>
+    <p>© 2025 Tuto+ — Collège Ahuntsic</p>
+  </footer>
+</body>
+</html>

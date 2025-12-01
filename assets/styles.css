@@ -394,3 +394,261 @@ footer {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 30;
 }
+/* ================================
+   Responsive – Tâche 006-1
+   ================================ */
+
+/* Base générale (mobile first) */
+body {
+  font-size: 16px;
+}
+
+/* Navigation : base */
+.tp-nav {
+  background: #0b1c33;
+  color: #fff;
+}
+
+.tp-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.tp-nav__logo {
+  height: 36px;
+  width: auto;
+}
+
+.tp-nav__menu a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1rem;
+  font-weight: 500;
+}
+
+/* Conteneur principal */
+.conteneur {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Carte générique (formulaires, listes, etc.) */
+.carte {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Grille de formulaire (service, etc.) */
+.grille {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+/* Ligne de créneau */
+.liste {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+.ligne {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #d6d9e6;
+  background: #f8f9ff;
+  cursor: pointer;
+}
+
+.ligne.selected {
+  border-color: #2356d8;
+  background: #e6edff;
+}
+
+.col.date {
+  font-weight: 600;
+}
+
+.col.heures {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.badge.ok {
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: #d2f4e3;
+  color: #145c36;
+}
+
+/* Boutons */
+.bouton {
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.bouton.primaire {
+  background: #2356d8;
+  color: #fff;
+}
+
+.bouton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* En-tête liste (titre + bouton) */
+.entete-liste {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Message vide */
+.vide {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Toast (confirmation) – déjà utilisé avec confirmer() */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 16px;
+  transform: translateX(-50%);
+  background: #1b4332;
+  color: #f1f1f1;
+  padding: 10px 14px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 30;
+}
+
+/* Carte de confirmation (tâche 003 déjà ajoutée) */
+.confirmation {
+  margin-top: 0.5rem;
+}
+
+.confirmation__liste {
+  list-style: none;
+  padding-left: 0;
+  margin: 0.5rem 0;
+}
+
+.confirmation__liste li {
+  margin: 0.25rem 0;
+}
+
+.confirmation__note {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* ========================
+   1) Mobile : ≤ 767px
+   ======================== */
+
+@media (max-width: 767px) {
+  .tp-nav__inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tp-nav__menu {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tp-nav__menu a {
+    margin-left: 0;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .entete-liste {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .entete-liste .bouton {
+    width: 100%;
+    text-align: center;
+  }
+
+  .carte {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .ligne {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .col.heures {
+    font-size: 0.85rem;
+  }
+}
+
+/* ========================
+   2) Tablette : 768–1023px
+   ======================== */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .conteneur {
+    padding: 1.25rem;
+  }
+
+  .grille {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .liste {
+    grid-template-columns: 1fr;
+  }
+
+  .carte {
+    padding: 1.1rem 1.3rem;
+  }
+}
+
+/* ========================
+   3) Desktop : ≥ 1024px
+   ======================== */
+
+@media (min-width: 1024px) {
+  .conteneur {
+    padding: 1.5rem 0;
+  }
+
+  .grille {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .liste {
+    grid-template-columns: 1fr;
+  }
+
+  .carte {
+    padding: 1.25rem 1.5rem;
+  }
+}

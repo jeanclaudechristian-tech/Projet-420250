@@ -15,6 +15,7 @@ body {
   margin: 0;
   padding: 0;
   line-height: 1.6;
+
 }
 
 /* === NAVBAR === */
@@ -355,4 +356,151 @@ footer {
   padding: 1rem 0;
   margin-top: 2rem;
   font-size: 0.9rem;
+}
+
+/*gestion disponibilite */
+
+
+h1 {
+  color: var(--rouge);
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.intro {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 8px 10px;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+th {
+  background-color: #e8f0fb;
+  color: #8f0000;
+}
+
+.actions {
+  white-space: nowrap;
+}
+
+.btn {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #fff;
+  margin-right: 5px;
+}
+
+.btn-accept {
+  background-color: #28a745;
+}
+
+.btn-refuse {
+  background-color: #dc3545;
+}
+
+.status {
+  font-weight: bold;
+}
+
+.status-attente {
+  color: #555;
+}
+
+.status-acceptee {
+  color: #28a745;
+}
+
+.status-refusee {
+  color: #dc3545;
+}
+
+.info-texte {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+footer {
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* ----------- FORMULAIRE ----------- */
+form {
+  background: #f9f9f9;
+  border: 2px solid #c10016;
+  /* Bordure rouge */
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Groupes */
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  color: #111;
+  margin-bottom: 6px;
+}
+
+/* Inputs & Textarea */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #333;
+  /* Noir */
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #111;
+  transition: border-color 0.25s ease;
+}
+
+/* Focus = rouge */
+input:focus,
+textarea:focus {
+  border-color: #c10016;
+  outline: none;
+}
+
+/* ----------- BOUTON ----------- */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #c10016;
+  /* Rouge */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #a30012;
+  /* Rouge foncé */
 }

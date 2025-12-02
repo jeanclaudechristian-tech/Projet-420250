@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>gestionDemande</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+  <header class="tp-nav" role="banner">
+    <div class="tp-nav__inner">
+      <a class="tp-nav__brand" href="../index.html" aria-label="Accueil Collège Ahuntsic">
+        <img src="../assets/images/CollegeAhuntsic_Logo.png" alt="Collège Ahuntsic" class="tp-nav__logo">
+      </a>
+
+      <nav class="tp-nav__menu" role="navigation" aria-label="Navigation principale">
+        <a href="../index.html">Accueil</a>
+        <a href="vue/calendrierDispo.html">Retour</a>
+
+      </nav>
+    </div>
+  </header>
+
+  <p class="intro">
+    En tant que tuteur, vous voyez ici la liste des demandes de tutorat et vous pouvez y répondre
+    via les actions « Accepter » ou « Refuser ». Cette interface illustre la US-008.
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Étudiant</th>
+        <th>Service</th>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Statut</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Alex Tremblay</td>
+        <td>Math 201</td>
+        <td>2025-12-05</td>
+        <td>14:00</td>
+        <td class="status status-attente">En attente</td>
+        <td class="actions">
+          <button class="btn btn-accept" type="button">Accepter</button>
+          <button class="btn btn-refuse" type="button">Refuser</button>
+        </td>
+      </tr>
+      <tr>
+        <td>Sara Bouchard</td>
+        <td>prog 420</td>
+        <td>2025-12-06</td>
+        <td>09:00</td>
+        <td class="status status-attente">En attente</td>
+        <td class="actions">
+          <button class="btn btn-accept" type="button">Accepter</button>
+          <button class="btn btn-refuse" type="button">Refuser</button>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+
+  <footer>
+    <p>© 2025 Tuto+ — Collège Ahuntsic</p>
+  </footer>
+
+  <script>
+    // Quand on clique sur "Accepter" ou "Refuser", on change le texte de la cellule Statut
+    document.querySelectorAll("tbody tr").forEach(function(row) {
+      const statusCell = row.querySelector(".status");
+      const btnAccept = row.querySelector(".btn-accept");
+      const btnRefuse = row.querySelector(".btn-refuse");
+
+      if (!statusCell || !btnAccept || !btnRefuse) return;
+
+      btnAccept.addEventListener("click", function () {
+        statusCell.textContent = "Acceptée";
+        statusCell.className = "status status-acceptee";
+      });
+
+      btnRefuse.addEventListener("click", function () {
+        statusCell.textContent = "Refusée";
+        statusCell.className = "status status-refusee";
+      });
+    });
+  </script>
+
+</body>
+</html>

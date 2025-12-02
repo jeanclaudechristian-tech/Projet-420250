@@ -302,7 +302,8 @@
         <img class="tp-nav__logo" src="..\assets\images\CollegeAhuntsic_Logo.png" alt="Logo Tuto+" />
       </div>
       <div class="tp-nav__menu">
-        <a href="statistique.html">Statistiques</a>
+        <a href="connexion.html">Déconnexion</a>
+
       </div>
     </div>
   </nav>
@@ -422,7 +423,7 @@
   <div id="toast" class="toast">Changements sauvegardés</div>
 
   <script>
-    // --- Données statiques de démonstration ---
+    //Données statiques de démonstration
     const comptes = [
       { id: 101, nom: "Alice Tremblay", role: "Étudiant", email: "alice@etu.ca", statut: "actif" },
       { id: 102, nom: "Marc Nguyen", role: "Tuteur", email: "marc@tuto.ca", statut: "actif" },
@@ -489,7 +490,7 @@
       render();
     }
 
-    // --- Consulter / RDV (aperçu) ---
+    //Consulter / RDV
     function consulter(id) {
       const c = comptes.find(x => x.id === id);
       if (!c) return;
@@ -537,7 +538,7 @@
   `;
     }
 
-    // --- Modifier / créer (modal) ---
+    //Modifier / créer
     let currentId = null;
     function ouvrirModal(id) {
       const modal = document.getElementById('modalCompte');

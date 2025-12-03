@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,46 +24,68 @@
     </div>
   </header>
 
-  <main class="conteneur">
-    <section class="carte">
-      <h1 class="titre">Choisir le service et un créneau</h1>
 
-      <form class="grille" novalidate>
-        <label class="champ">
-          <span class="libelle">Service</span>
-          <select id="service" required></select>
-        </label>
-      </form>
-    </section>
+  <!-- AJOUT : conteneur-large avec rendezVous + historique -->
+  <div class="container-large">
+    <main class="rendezVous">
+      <section class="carte">
+        <h1 class="titre">Choisir le service et un créneau</h1>
 
-    <section class="carte">
-      <div class="entete-liste">
-        <h2 class="soustitre">Créneaux disponibles</h2>
-        <button id="btnBook" class="bouton primaire" disabled>Prendre rendez-vous</button>
-      </div>
-      <div id="liste" class="liste"></div>
-      <p id="vide" class="vide" hidden>Aucun créneau disponible pour ce choix.</p>
-    </section>
 
-    <!-- Carte de confirmation visible après la réservation -->
-    <section id="zoneConfirmation" class="carte confirmation" hidden>
-      <h2 class="soustitre">Rendez-vous confirmé</h2>
-      <p class="confirmation__intro">
-        Ton rendez-vous a été réservé avec succès. Garde ces informations.
-      </p>
-      <ul class="confirmation__liste">
-        <li><strong>Date :</strong> <span id="confDate"></span></li>
-        <li><strong>Heure :</strong> <span id="confHeure"></span></li>
-        <li><strong>Tuteur :</strong> <span id="confTuteur"></span></li>
-        <li><strong>Service :</strong> <span id="confService"></span></li>
-      </ul>
-      <p class="confirmation__note">
-        Ce message reste visible au moins 5 secondes après la réservation.
-      </p>
-    </section>
+        <form class="grille" novalidate>
+          <label class="champ">
+            <span class="libelle">Service</span>
+            <select id="service" required></select>
+          </label>
+        </form>
+      </section>
 
-    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
-  </main>
+
+      <section class="carte">
+        <div class="entete-liste">
+          <h2 class="soustitre">Créneaux disponibles</h2>
+          <button id="btnBook" class="bouton primaire" disabled>Prendre rendez-vous</button>
+        </div>
+        <div id="liste" class="liste"></div>
+        <p id="vide" class="vide" hidden>Aucun créneau disponible pour ce choix.</p>
+      </section>
+
+
+      <!-- Carte de confirmation visible après la réservation -->
+      <section id="zoneConfirmation" class="carte confirmation" hidden>
+        <h2 class="soustitre">Rendez-vous confirmé</h2>
+        <p class="confirmation__intro">
+          Ton rendez-vous a été réservé avec succès. Garde ces informations.
+        </p>
+        <ul class="confirmation__liste">
+          <li><strong>Date :</strong> <span id="confDate"></span></li>
+          <li><strong>Heure :</strong> <span id="confHeure"></span></li>
+          <li><strong>Tuteur :</strong> <span id="confTuteur"></span></li>
+          <li><strong>Service :</strong> <span id="confService"></span></li>
+        </ul>
+        <p class="confirmation__note">
+          Ce message reste visible au moins 5 secondes après la réservation.
+        </p>
+      </section>
+
+
+      <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+    </main>
+
+    <!-- AJOUT : colonne de droite Historique -->
+    <aside class="historique">
+      <section class="carte">
+        <h1 class="titre">Historique</h1>
+        <ul>
+          <li>201-150-AH — Math appliquées à l'informatique 1 (M. Tremblay, M. Gagnon)</li>
+          <li>420-238-AH — Programmation orientée objet 1 (Mme Nguyen, Mme Roy)</li>
+          <li>420-239-AH — Systèmes d'exploitation (M. Lefebvre, M. Gagnon)</li>
+          <li>243-285-AH — Composants physiques du matériel (M. Lefebvre, M. Gagnon)</li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
 
   <template id="tpl">
     <button type="button" class="ligne">
@@ -239,6 +262,7 @@
       el.confHeure.textContent = `${rdv.debut} – ${rdv.fin}`;
       el.confTuteur.textContent = tuteurNom;
       el.confService.textContent = serviceNom;
+
 
       // Rendre la carte visible
       el.zoneConfirmation.hidden = false;

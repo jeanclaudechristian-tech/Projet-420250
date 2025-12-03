@@ -20,8 +20,9 @@ body {
 
 /* === NAVBAR === */
 .tp-nav {
-  background-color: var(--rouge);
-  color: var(--blanc);
+  background-color: var(--blanc);
+  color: var(--rouge);
+  border-bottom: 3px solid red;
   padding: 0.75rem 1.5rem;
 }
 
@@ -36,7 +37,7 @@ body {
 }
 
 .tp-nav__menu a {
-  color: var(--blanc);
+  color: var(--rouge);
   text-decoration: none;
   margin-left: 1.5rem;
   font-weight: 600;
@@ -201,26 +202,28 @@ select:focus {
 
 /* === SÉPARATION DES DIV RENDEZ-VOUS ET HISTORIQUE === */
 .container-large {
-  width: 100vw;
-  max-width: none;
+  width: 90%; /* Instead of 100vw */
+  max-width: 1200px; /* Set a max width */
   padding: 0;
-  margin: 0;
+  margin: 0 auto; /* Center the container itself */
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
-  gap: 32px;
-  /* Espace entre les blocs */
+  gap: 20px;
 }
+
 
 .rendezVous {
   flex: 1 1 0;
   max-width: 650px;
   min-width: 340px;
-  margin-left: 60px;
+  margin-left: 0px;
+  margin-right: -10px; /* Negative margin to pull historique closer */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
+
 
 .historique {
   flex: 0 0 340px;
